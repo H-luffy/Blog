@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.mapper.TagMapper">
+
+    <select id="selectAll" resultType="com.hjf.entity.Tag">
+        select id, name from tag order by id asc
+    </select>
+
+    <select id="selectById" resultType="com.hjf.entity.Tag">
+        select id, name from tag where id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tag (name) values (#{name})
+    </insert>
+
+    <delete id="deleteById">
+        delete from tag where id = #{id}
+    </delete>
+
+</mapper>

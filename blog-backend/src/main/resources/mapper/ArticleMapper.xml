@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.mapper.ArticleMapper">
+
+
+
+    <select id="selectList" resultType="com.hjf.entity.Article">
+        select id, title, summary, content, cover_image, status, view_count, create_time, update_time
+        from article order by create_time desc
+    </select>
+    <select id="selectById" resultType="com.hjf.entity.Article">
+        select id, title, summary, content, cover_image, status, view_count, create_time, update_time
+        from article where id = #{id}
+    </select>
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into article (title, summary, content, cover_image, status, view_count, create_time, update_time)
+        values (#{title}, #{summary}, #{content}, #{coverImage}, #{status}, #{viewCount}, #{createTime}, #{updateTime})
+    </insert>
+    <update id="update">
+        update article set title = #{title}, summary = #{summary}, content = #{content}, cover_image = #{coverImage}, status = #{status}, view_count = #{viewCount}, create_time = #{createTime}, update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById">
+        delete from article where id = #{id}
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+        select count(*)
+        from article;
+    </select>
+    <select id="list" resultType="com.hjf.entity.Article">
+        select id, title, summary, content, cover_image, status, view_count, create_time, update_time
+        from article
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%', #{title}, '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+</mapper>

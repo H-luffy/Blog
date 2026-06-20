@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.mapper.ArticleTagMapper">
+
+    <insert id="insert">
+        insert into article_tag (article_id, tag_id) values (#{articleId}, #{tagId})
+    </insert>
+
+    <delete id="deleteByArticleId">
+        delete from article_tag where article_id = #{articleId}
+    </delete>
+
+    <select id="selectByArticleId" resultType="com.hjf.entity.ArticleTag">
+        select article_id, tag_id from article_tag where article_id = #{articleId}
+    </select>
+
+    <select id="selectByTagId" resultType="com.hjf.entity.ArticleTag">
+        select article_id, tag_id from article_tag where tag_id = #{tagId}
+    </select>
+
+</mapper>
