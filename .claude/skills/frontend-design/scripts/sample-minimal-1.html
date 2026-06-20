@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1 — 左对齐极简</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; color: #111; font-family: 'Inter', sans-serif; }
+
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 32px; }
+
+  /* nav */
+  nav { padding: 48px 0 32px; display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { font-weight: 700; font-size: 16px; letter-spacing: 2px; }
+  nav .logo span { color: #6366f1; }
+  nav a { font-size: 13px; color: #999; text-decoration: none; }
+  nav a:hover { color: #6366f1; }
+
+  /* search */
+  .search-box { border-bottom: 2px solid #111; padding-bottom: 16px; margin-bottom: 48px; }
+  .search-box input {
+    width: 100%; border: none; outline: none; font-size: 16px;
+    font-family: 'Inter', sans-serif; background: transparent; color: #111;
+  }
+  .search-box input::placeholder { color: #ccc; }
+
+  /* article */
+  .article { padding: 28px 0; border-bottom: 1px solid #eee; }
+  .article:last-child { border-bottom: none; }
+  .article-num { font-size: 11px; color: #bbb; font-weight: 600; letter-spacing: 2px; margin-bottom: 8px; }
+  .article h2 {
+    font-size: 20px; font-weight: 600; margin-bottom: 8px; line-height: 1.4;
+    cursor: pointer; transition: color 0.2s;
+  }
+  .article h2:hover { color: #6366f1; }
+  .article .meta { font-size: 12px; color: #aaa; margin-bottom: 10px; display: flex; gap: 12px; }
+  .article p { font-size: 14px; color: #555; line-height: 1.7; }
+  .article .tags { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .article .tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 8px; border: 1px solid #ddd; color: #888;
+  }
+
+  /* pagination */
+  .pag { display: flex; justify-content: center; gap: 8px; padding: 48px 0; }
+  .pag span {
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    border: 1px solid #ddd; font-size: 12px; color: #999; cursor: pointer;
+  }
+  .pag span.active { background: #111; color: #fff; border-color: #111; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">STUDY<span>.</span>BLOG</div>
+    <a href="#">后台管理</a>
+  </nav>
+
+  <div class="search-box">
+    <input type="text" placeholder="搜索文章...">
+  </div>
+
+  <div class="article">
+    <div class="article-num">001</div>
+    <h2>Vue3 入门教程</h2>
+    <div class="meta"><span>2026.06.20</span><span>42 views</span></div>
+    <p>本文介绍 Vue3 的基础用法，从响应式系统到组合式 API。</p>
+    <div class="tags"><span class="tag">Vue.js</span><span class="tag">前端</span><span class="tag">全栈</span></div>
+  </div>
+
+  <div class="article">
+    <div class="article-num">002</div>
+    <h2>Spring Boot 实战</h2>
+    <div class="meta"><span>2026.06.19</span><span>18 views</span></div>
+    <p>Spring Boot 快速搭建后端服务，自动配置、内嵌 Tomcat。</p>
+    <div class="tags"><span class="tag">Spring Boot</span><span class="tag">后端</span><span class="tag">全栈</span></div>
+  </div>
+
+  <div class="article">
+    <div class="article-num">003</div>
+    <h2>全栈开发之路</h2>
+    <div class="meta"><span>2026.06.18</span><span>5 views</span></div>
+    <p>从前端到后端的全栈学习指南，涵盖 Vue3、Spring Boot、MySQL。</p>
+    <div class="tags"><span class="tag">全栈</span><span class="tag">前端</span><span class="tag">后端</span></div>
+  </div>
+
+  <div class="pag">
+    <span>‹</span><span class="active">1</span><span>2</span><span>3</span><span>›</span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S5 — 时间线型</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; color: #111; font-family: 'Inter', sans-serif; }
+
+  .wrap { max-width: 640px; margin: 0 auto; padding: 48px 24px; }
+
+  .header { text-align: center; margin-bottom: 48px; }
+  .header h1 { font-size: 18px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 4px; }
+  .header p { font-size: 11px; color: #ccc; letter-spacing: 2px; }
+
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
+    width: 1px; background: #eee;
+  }
+
+  .tl-item { position: relative; padding: 24px 0; border-bottom: 1px solid #f5f5f5; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -30px; top: 30px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #fff; border: 2px solid #ddd;
+    transition: border-color 0.2s;
+  }
+  .tl-item:hover::before { border-color: #111; }
+
+  .tl-date { font-size: 10px; color: #ccc; letter-spacing: 1px; margin-bottom: 8px; }
+  .tl-item h3 {
+    font-size: 17px; font-weight: 600; margin-bottom: 6px;
+    cursor: pointer; transition: color 0.2s;
+  }
+  .tl-item h3:hover { color: #111; }
+  .tl-item p { font-size: 13px; color: #999; line-height: 1.6; }
+  .tl-item .tl-tags { margin-top: 10px; display: flex; gap: 6px; }
+  .tl-item .tl-tag {
+    font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 8px; background: #f9f9f9; color: #bbb;
+  }
+
+  .pag { display: flex; justify-content: center; gap: 16px; padding: 40px 0 0; }
+  .pag span { font-size: 14px; color: #ddd; cursor: pointer; }
+  .pag span.active { color: #111; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>My Study Blog</h1>
+    <p>2026 · 写作记录</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">2026.06.20</div>
+      <h3>Vue3 入门教程</h3>
+      <p>本文介绍 Vue3 的基础用法，从响应式系统到组合式 API，带你走进现代前端开发的世界。</p>
+      <div class="tl-tags"><span class="tl-tag">Vue.js</span><span class="tl-tag">前端</span><span class="tl-tag">全栈</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2026.06.19</div>
+      <h3>Spring Boot 实战</h3>
+      <p>Spring Boot 快速搭建后端服务，自动配置、内嵌 Tomcat，Java 开发的不二之选。</p>
+      <div class="tl-tags"><span class="tl-tag">Spring Boot</span><span class="tl-tag">后端</span><span class="tl-tag">全栈</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2026.06.18</div>
+      <h3>全栈开发之路</h3>
+      <p>从前端到后端的全栈学习指南，涵盖 Vue3、Spring Boot、MySQL 等技术栈的整合实践。</p>
+      <div class="tl-tags"><span class="tl-tag">全栈</span><span class="tl-tag">前端</span><span class="tl-tag">后端</span></div>
+    </div>
+  </div>
+
+  <div class="pag">
+    <span>‹</span><span class="active">·</span><span>›</span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>样品5「实验室」— Lab 风格博客</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #FFFFFF;
+    color: #111827;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部 ===== */
+  .lab-header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 3px solid #2563EB;
+  }
+
+  .lab-header .brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #111827;
+  }
+
+  .lab-header .brand span {
+    color: #2563EB;
+  }
+
+  .lab-header .admin-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #9CA3AF;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .lab-header .admin-link:hover { color: #2563EB; }
+
+  /* ===== 搜索 ===== */
+  .search-panel {
+    max-width: 720px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
+
+  .search-panel input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #E5E7EB;
+    border-radius: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: #111827;
+    outline: none;
+    background: #F9FAFB;
+    transition: border-color 0.2s;
+  }
+  .search-panel input::placeholder { color: #D1D5DB; }
+  .search-panel input:focus { border-color: #2563EB; background: #fff; }
+
+  /* ===== 文章列表 ===== */
+  .article-list {
+    max-width: 720px;
+    margin: 32px auto;
+    padding: 0 24px;
+  }
+
+  .article-entry {
+    padding: 24px 0;
+    border-bottom: 1px solid #F3F4F6;
+    display: flex;
+    gap: 20px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .article-entry:hover {
+    padding-left: 8px;
+  }
+
+  .article-entry .entry-id {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #D1D5DB;
+    letter-spacing: 1px;
+    padding-top: 2px;
+    white-space: nowrap;
+    min-width: 70px;
+  }
+
+  .article-entry .entry-body { flex: 1; }
+
+  .article-entry .entry-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: #111827;
+    margin-bottom: 6px;
+    transition: color 0.2s;
+  }
+  .article-entry:hover .entry-title { color: #2563EB; }
+
+  .article-entry .entry-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #9CA3AF;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .article-entry .entry-meta .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-published { background: #10B981; }
+  .dot-draft { background: #F59E0B; }
+
+  .article-entry .entry-summary {
+    font-size: 13px;
+    color: #6B7280;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .article-entry .entry-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .entry-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: #EFF6FF;
+    color: #2563EB;
+    border: 1px solid #BFDBFE;
+  }
+
+  /* ===== 分页 ===== */
+  .pagination {
+    max-width: 720px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: #9CA3AF;
+  }
+
+  .pagination span {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #E5E7EB;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pagination span:hover {
+    border-color: #2563EB;
+    color: #2563EB;
+  }
+  .pagination .active {
+    background: #2563EB;
+    color: #fff;
+    border-color: #2563EB;
+  }
+
+  /* ===== 底部 ===== */
+  .footer {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #D1D5DB;
+    letter-spacing: 2px;
+    border-top: 1px solid #F3F4F6;
+  }
+</style>
+</head>
+<body>
+
+<!-- 报头 -->
+<div class="lab-header">
+  <div class="brand">LAB<span>.</span>BLOG</div>
+  <a href="#" class="admin-link">[ ADMIN ]</a>
+</div>
+
+<!-- 搜索 -->
+<div class="search-panel">
+  <input type="text" placeholder="> search articles...">
+</div>
+
+<!-- 文章列表 -->
+<div class="article-list">
+
+  <!-- 文章 1 -->
+  <div class="article-entry">
+    <div class="entry-id">ART-007</div>
+    <div class="entry-body">
+      <div class="entry-title">Vue3 入门教程</div>
+      <div class="entry-meta">
+        <span><span class="dot dot-published"></span> PUBLISHED</span>
+        <span>2026.06.20</span>
+        <span>VIEWS: 42</span>
+      </div>
+      <div class="entry-summary">本文介绍 Vue3 的基础用法，从响应式系统到组合式 API，带你走进现代前端开发的世界。</div>
+      <div class="entry-tags">
+        <span class="entry-tag">Vue.js</span>
+        <span class="entry-tag">Frontend</span>
+        <span class="entry-tag">Fullstack</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 文章 2 -->
+  <div class="article-entry">
+    <div class="entry-id">ART-008</div>
+    <div class="entry-body">
+      <div class="entry-title">Spring Boot 实战</div>
+      <div class="entry-meta">
+        <span><span class="dot dot-published"></span> PUBLISHED</span>
+        <span>2026.06.19</span>
+        <span>VIEWS: 18</span>
+      </div>
+      <div class="entry-summary">Spring Boot 快速搭建后端服务，自动配置、内嵌 Tomcat，Java 开发的不二之选。</div>
+      <div class="entry-tags">
+        <span class="entry-tag">Spring Boot</span>
+        <span class="entry-tag">Backend</span>
+        <span class="entry-tag">Fullstack</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 文章 3 -->
+  <div class="article-entry">
+    <div class="entry-id">ART-009</div>
+    <div class="entry-body">
+      <div class="entry-title">全栈开发之路</div>
+      <div class="entry-meta">
+        <span><span class="dot dot-published"></span> PUBLISHED</span>
+        <span>2026.06.18</span>
+        <span>VIEWS: 5</span>
+      </div>
+      <div class="entry-summary">从前端到后端的全栈学习指南，涵盖 Vue3、Spring Boot、MySQL 等技术栈的整合实践。</div>
+      <div class="entry-tags">
+        <span class="entry-tag">Fullstack</span>
+        <span class="entry-tag">Frontend</span>
+        <span class="entry-tag">Backend</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 分页 -->
+<div class="pagination">
+  <span>‹</span>
+  <span class="active">1</span>
+  <span>2</span>
+  <span>3</span>
+  <span>›</span>
+</div>
+
+<!-- 底部 -->
+<div class="footer">
+  LAB.BLOG v1.0.0 — BUILD 20260620
+</div>
+
+</body>
+</html>

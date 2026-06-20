@@ -1,36 +1,37 @@
 <template>
-  <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
-    <!-- 顶部导航 -->
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 2px solid #409eff; margin-bottom: 30px;">
-      <router-link to="/" style="color: #409eff; text-decoration: none; font-size: 15px;">&larr; 返回首页</router-link>
-      <span style="color: #999; font-size: 13px;">博客详情</span>
-    </div>
+  <div style="display: grid; grid-template-columns: 200px 1fr; gap: 48px; max-width: 920px; margin: 0 auto; padding: 48px 32px; min-height: 100vh;">
 
-    <div v-loading="loading">
-      <div v-if="article" style="background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
-        <h1 style="margin: 0 0 16px 0; color: #333; font-size: 28px;">{{ article.title }}</h1>
-        <p style="color: #999; font-size: 13px; margin: 0 0 16px 0; display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-          <span>📅 {{ article.createTime }}</span>
-          <span>👁️ 阅读 {{ article.viewCount }}</span>
-          <span v-if="article.tags && article.tags.length">
-            <el-tag
-              v-for="tag in article.tags"
-              :key="tag.id"
-              size="small"
-              style="margin-right: 6px;"
-            >
-              {{ tag.name }}
-            </el-tag>
-          </span>
-        </p>
-
-        <MdPreview :editorId="`preview-${article.id}`" :model-value="article.content" style="line-height: 2; color: #333;" />
+    <!-- 左侧侧边栏 -->
+    <aside style="position: sticky; top: 48px; height: fit-content;">
+      <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
+        STUDY<span style="color: #0ea5e9;">.</span>BLOG
       </div>
+      <ul style="list-style: none;">
+        <li @click="$router.push('/')" style="padding: 8px 0; font-size: 13px; color: #999; cursor: pointer;">返回首页</li>
+      </ul>
+    </aside>
 
-      <div v-else-if="!loading" style="text-align: center; padding: 60px 0; color: #999;">
-        文章不存在或已被删除
+    <!-- 右侧文章内容 -->
+    <main style="min-width: 0;">
+      <div v-loading="loading">
+        <div v-if="article" style="background: #fff; padding: 32px; border-radius: 8px; border: 1px solid #eee;">
+          <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 12px;">{{ article.title }}</h1>
+          <p style="font-size: 12px; color: #bbb; margin-bottom: 24px; display: flex; gap: 16px; flex-wrap: wrap;">
+            <span>{{ article.createTime }}</span>
+            <span>{{ article.viewCount }} 阅读</span>
+            <span v-if="article.tags && article.tags.length">
+              <span
+                v-for="tag in article.tags"
+                :key="tag.id"
+                style="font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; background: #f0f9ff; color: #0ea5e9; border-radius: 4px;"
+              >{{ tag.name }}</span>
+            </span>
+          </p>
+          <MdPreview :editorId="`preview-${article.id}`" :model-value="article.content" style="line-height: 2; color: #333;" />
+        </div>
+        <div v-else-if="!loading" style="text-align: center; padding: 60px 0; color: #999;">文章不存在或已被删除</div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 

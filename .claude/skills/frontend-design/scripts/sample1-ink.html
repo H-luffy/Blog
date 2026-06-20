@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>样品1「墨」— 东方水墨博客</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #F7F5F0;
+    color: #0A0A0A;
+    font-family: 'Noto Sans SC', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部 ===== */
+  .header {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #C4A882;
+  }
+
+  .header h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: 4px;
+  }
+
+  .header .admin-btn {
+    font-size: 13px;
+    color: #8B8B8B;
+    text-decoration: none;
+    border-bottom: 1px dashed #8B8B8B;
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .header .admin-btn:hover { color: #0A0A0A; }
+
+  /* ===== 搜索 ===== */
+  .search-bar {
+    max-width: 760px;
+    margin: 32px auto 0;
+    padding: 0 24px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-bottom: 2px solid #0A0A0A;
+    background: transparent;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 15px;
+    outline: none;
+    color: #0A0A0A;
+  }
+
+  .search-bar input::placeholder { color: #8B8B8B; }
+
+  .search-bar .search-btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 20px;
+    background: #0A0A0A;
+    color: #F7F5F0;
+    border: none;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: background 0.2s;
+  }
+  .search-bar .search-btn:hover { background: #2D5016; }
+
+  /* ===== 文章列表 ===== */
+  .article-list {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 0 24px;
+  }
+
+  .article-card {
+    position: relative;
+    padding: 32px 0;
+    border-bottom: 1px solid #E0DDD5;
+  }
+
+  .article-card::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 36px;
+    bottom: 36px;
+    width: 2px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  .article-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: #0A0A0A;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .article-title:hover { opacity: 0.6; }
+
+  .article-meta {
+    font-size: 12px;
+    color: #8B8B8B;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .article-summary {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #2D2D2D;
+    margin-bottom: 12px;
+  }
+
+  .article-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag-seal {
+    display: inline-block;
+    padding: 3px 10px;
+    border: 1.5px solid var(--accent, #C4A882);
+    color: var(--accent, #C4A882);
+    font-size: 11px;
+    letter-spacing: 2px;
+    border-radius: 2px;
+    cursor: default;
+  }
+
+  /* ===== 分页 ===== */
+  .pagination {
+    max-width: 760px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    color: #8B8B8B;
+  }
+
+  .pagination span {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .pagination span:hover { color: #0A0A0A; border-bottom-color: #0A0A0A; }
+  .pagination .active { color: #0A0A0A; font-weight: 700; }
+
+  /* ===== 标签颜色 ===== */
+  .tag-vue { --accent: #2D5016; }
+  .tag-spring { --accent: #8B0000; }
+  .tag-fullstack { --accent: #C4A882; }
+  .tag-front { --accent: #4A6FA5; }
+  .tag-back { --accent: #6B4C8A; }
+
+  /* ===== 底部 ===== */
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    font-size: 12px;
+    color: #C4A882;
+    letter-spacing: 3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部 -->
+<div class="header">
+  <h1>墨 博 客</h1>
+  <a href="#" class="admin-btn">后台管理 →</a>
+</div>
+
+<!-- 搜索 -->
+<div class="search-bar">
+  <input type="text" placeholder="搜索文章…">
+  <button class="search-btn">搜 索</button>
+</div>
+
+<!-- 文章列表 -->
+<div class="article-list">
+
+  <!-- 文章 1 -->
+  <div class="article-card tag-vue">
+    <div class="article-title">Vue3 入门教程</div>
+    <div class="article-meta">二〇二六年六月二十日 · 阅读 42</div>
+    <div class="article-summary">本文介绍 Vue3 的基础用法，从响应式系统到组合式 API，带你走进现代前端开发的世界。</div>
+    <div class="article-tags">
+      <span class="tag-seal">Vue.js</span>
+      <span class="tag-seal">前端</span>
+      <span class="tag-seal">全栈</span>
+    </div>
+  </div>
+
+  <!-- 文章 2 -->
+  <div class="article-card tag-spring">
+    <div class="article-title">Spring Boot 实战</div>
+    <div class="article-meta">二〇二六年六月十九日 · 阅读 18</div>
+    <div class="article-summary">Spring Boot 快速搭建后端服务，自动配置、内嵌 Tomcat，Java 开发的不二之选。</div>
+    <div class="article-tags">
+      <span class="tag-seal">Spring Boot</span>
+      <span class="tag-seal">后端</span>
+      <span class="tag-seal">全栈</span>
+    </div>
+  </div>
+
+  <!-- 文章 3 -->
+  <div class="article-card tag-fullstack">
+    <div class="article-title">全栈开发之路</div>
+    <div class="article-meta">二〇二六年六月十八日 · 阅读 5</div>
+    <div class="article-summary">从前端到后端的全栈学习指南，涵盖 Vue3、Spring Boot、MySQL 等技术栈的整合实践。</div>
+    <div class="article-tags">
+      <span class="tag-seal">全栈</span>
+      <span class="tag-seal">前端</span>
+      <span class="tag-seal">后端</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- 分页 -->
+<div class="pagination">
+  <span>‹</span>
+  <span class="active">一</span>
+  <span>二</span>
+  <span>三</span>
+  <span>›</span>
+</div>
+
+<!-- 底部 -->
+<div class="footer">
+  留白处，自有天地
+</div>
+
+</body>
+</html>

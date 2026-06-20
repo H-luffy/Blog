@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>样品3「卡片墙」— Bento Grid 风格博客</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #F8F9FA;
+    color: #111827;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部 ===== */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .topbar .logo {
+    font-weight: 800;
+    font-size: 18px;
+    color: #111827;
+  }
+
+  .topbar .logo span { color: #3B82F6; }
+
+  .topbar .nav-btn {
+    padding: 8px 20px;
+    background: #3B82F6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .topbar .nav-btn:hover { background: #2563EB; }
+
+  /* ===== Bento Grid ===== */
+  .bento-grid {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(80px, auto);
+    gap: 16px;
+  }
+
+  .bento-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid #E5E7EB;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .bento-card:hover {
+    border-color: #3B82F6;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59,130,246,0.12);
+  }
+
+  /* 搜索卡片 - 占 2 列 */
+  .card-search {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-search input {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid #E5E7EB;
+    padding: 8px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    color: #111827;
+  }
+  .card-search input::placeholder { color: #9CA3AF; }
+  .card-search input:focus { border-bottom-color: #3B82F6; }
+  .card-search .go-btn {
+    padding: 6px 16px;
+    background: #111827;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* 统计卡片 */
+  .card-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .card-stats .num {
+    font-size: 36px;
+    font-weight: 800;
+    color: #3B82F6;
+    line-height: 1;
+  }
+  .card-stats .label {
+    font-size: 11px;
+    color: #9CA3AF;
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* 特色文章 - 占 2×2 */
+  .card-featured {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: linear-gradient(135deg, #111827 0%, #1E293B 100%);
+    color: #fff;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+  }
+  .card-featured:hover {
+    border-color: #3B82F6;
+    box-shadow: 0 8px 32px rgba(59,130,246,0.2);
+  }
+  .card-featured .tag-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    background: #3B82F6;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    width: fit-content;
+  }
+  .card-featured h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .card-featured p {
+    font-size: 13px;
+    color: #94A3B8;
+    line-height: 1.5;
+  }
+
+  /* 普通文章卡片 */
+  .card-article {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 140px;
+  }
+  .card-article .cat {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #F59E0B;
+  }
+  .card-article h4 {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 8px 0 4px;
+  }
+  .card-article .meta {
+    font-size: 11px;
+    color: #9CA3AF;
+  }
+
+  /* 标签云卡片 */
+  .card-tags {
+    grid-column: span 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-tags .pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #E5E7EB;
+    color: #374151;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .card-tags .pill:hover {
+    background: #3B82F6;
+    color: #fff;
+    border-color: #3B82F6;
+  }
+
+  /* ===== 分页 ===== */
+  .pagination {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  .pagination span {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #E5E7EB;
+    background: #fff;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pagination span:hover { border-color: #3B82F6; color: #3B82F6; }
+  .pagination .active { background: #3B82F6; color: #fff; border-color: #3B82F6; }
+
+  /* ===== 底部 ===== */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: #9CA3AF;
+    letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部栏 -->
+<div class="topbar">
+  <div class="logo">my<span>.</span>blog</div>
+  <button class="nav-btn">后台管理</button>
+</div>
+
+<!-- Bento Grid -->
+<div class="bento-grid">
+
+  <!-- 搜索 -->
+  <div class="bento-card card-search">
+    <input type="text" placeholder="搜索文章标题、关键词...">
+    <button class="go-btn">搜索</button>
+  </div>
+
+  <!-- 统计：文章数 -->
+  <div class="bento-card card-stats">
+    <div class="num">42</div>
+    <div class="label">篇 文章</div>
+  </div>
+
+  <!-- 统计：阅读量 -->
+  <div class="bento-card card-stats">
+    <div class="num">1.2K</div>
+    <div class="label">总阅读</div>
+  </div>
+
+  <!-- 特色文章（大卡片） -->
+  <div class="bento-card card-featured">
+    <div class="tag-pill">FEATURED</div>
+    <h3>Vue3 入门教程</h3>
+    <p>本文介绍 Vue3 的基础用法，从响应式系统到组合式 API，带你走进现代前端开发的世界。</p>
+  </div>
+
+  <!-- 普通文章 -->
+  <div class="bento-card card-article">
+    <div class="cat">Spring Boot</div>
+    <h4>Spring Boot 实战</h4>
+    <div class="meta">2026.06.19 · 阅读 18</div>
+  </div>
+
+  <!-- 普通文章 -->
+  <div class="bento-card card-article">
+    <div class="cat">全栈</div>
+    <h4>全栈开发之路</h4>
+    <div class="meta">2026.06.18 · 阅读 5</div>
+  </div>
+
+  <!-- 标签云 -->
+  <div class="bento-card card-tags">
+    <span class="pill">Vue.js</span>
+    <span class="pill">Spring Boot</span>
+    <span class="pill">前端</span>
+    <span class="pill">后端</span>
+    <span class="pill">全栈</span>
+    <span class="pill">MySQL</span>
+    <span class="pill">TypeScript</span>
+  </div>
+
+</div>
+
+<!-- 分页 -->
+<div class="pagination">
+  <span>‹</span>
+  <span class="active">1</span>
+  <span>2</span>
+  <span>3</span>
+  <span>›</span>
+</div>
+
+<!-- 底部 -->
+<div class="footer">BENTO GRID · 不规则之美</div>
+
+</body>
+</html>

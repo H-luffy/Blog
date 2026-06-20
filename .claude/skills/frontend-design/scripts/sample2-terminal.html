@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>样品2「终端」— Hacker 风格博客</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0D1117;
+    color: #C9D1D9;
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部状态栏 ===== */
+  .statusbar {
+    background: #161B22;
+    border-bottom: 1px solid #30363D;
+    padding: 6px 16px;
+    font-size: 11px;
+    color: #8B949E;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .statusbar .title { color: #00FF41; }
+  .statusbar .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: #00FF41;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ===== 头部 ===== */
+  .hero {
+    padding: 40px 24px 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: 14px;
+    color: #00FF41;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 .prompt { color: #FF6B35; }
+
+  /* ===== 搜索 ===== */
+  .search-row {
+    display: flex;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px 24px;
+  }
+
+  .search-row .prompt-symbol {
+    color: #FF6B35;
+    font-size: 14px;
+    padding: 8px 0 8px 12px;
+    background: #161B22;
+    border: 1px solid #30363D;
+    border-right: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-row input {
+    flex: 1;
+    padding: 8px 12px;
+    background: #0D1117;
+    border: 1px solid #30363D;
+    color: #00FF41;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    outline: none;
+  }
+  .search-row input::placeholder { color: #484F58; }
+  .search-row input:focus { border-color: #00FF41; }
+
+  .search-row button {
+    padding: 8px 16px;
+    background: #238636;
+    border: 1px solid #238636;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .search-row button:hover { background: #2EA043; }
+
+  /* ===== 文章列表 ===== */
+  .article-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+  }
+
+  .article-card {
+    background: #161B22;
+    border: 1px solid #30363D;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+  .article-card:hover { border-color: #00FF41; }
+
+  .article-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #21262D;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .article-header .cmd {
+    color: #FF6B35;
+    font-size: 12px;
+  }
+
+  .article-header .date {
+    color: #484F58;
+    font-size: 11px;
+  }
+
+  .article-body {
+    padding: 12px 16px;
+  }
+
+  .article-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #C9D1D9;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
+  .article-title:hover { color: #00FF41; }
+
+  .article-summary {
+    font-size: 12px;
+    color: #8B949E;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .article-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .term-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    background: #1F2937;
+    color: #00FF41;
+    border: 1px solid #30363D;
+    letter-spacing: 1px;
+  }
+
+  /* ===== 分页 ===== */
+  .pagination {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .pagination span {
+    padding: 4px 12px;
+    border: 1px solid #30363D;
+    color: #8B949E;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pagination span:hover { border-color: #00FF41; color: #00FF41; }
+  .pagination .active { background: #238636; border-color: #238636; color: #fff; }
+
+  /* ===== 底部 ===== */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: #484F58;
+    border-top: 1px solid #21262D;
+  }
+</style>
+</head>
+<body>
+
+<!-- 状态栏 -->
+<div class="statusbar">
+  <span class="title">~/blog/frontend/src/views</span>
+  <span>Vue3 + Spring Boot <span class="cursor"></span></span>
+</div>
+
+<!-- 头部 -->
+<div class="hero">
+  <h1><span class="prompt">$</span> my_study_blog — 全栈开发者的数字花园</h1>
+</div>
+
+<!-- 搜索 -->
+<div class="search-row">
+  <span class="prompt-symbol">$</span>
+  <input type="text" placeholder="搜索文章标题...">
+  <button>GO</button>
+</div>
+
+<!-- 文章列表 -->
+<div class="article-list">
+
+  <div class="article-card">
+    <div class="article-header">
+      <span class="cmd">./article/007</span>
+      <span class="date">2026-06-20 14:32</span>
+    </div>
+    <div class="article-body">
+      <div class="article-title">Vue3 入门教程</div>
+      <div class="article-summary">本文介绍 Vue3 的基础用法，从响应式系统到组合式 API，带你走进现代前端开发的世界。</div>
+      <div class="article-tags">
+        <span class="term-tag">VUE.JS</span>
+        <span class="term-tag">FRONTEND</span>
+        <span class="term-tag">FULLSTACK</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-card">
+    <div class="article-header">
+      <span class="cmd">./article/008</span>
+      <span class="date">2026-06-19 09:15</span>
+    </div>
+    <div class="article-body">
+      <div class="article-title">Spring Boot 实战</div>
+      <div class="article-summary">Spring Boot 快速搭建后端服务，自动配置、内嵌 Tomcat，Java 开发的不二之选。</div>
+      <div class="article-tags">
+        <span class="term-tag">SPRING BOOT</span>
+        <span class="term-tag">BACKEND</span>
+        <span class="term-tag">FULLSTACK</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-card">
+    <div class="article-header">
+      <span class="cmd">./article/009</span>
+      <span class="date">2026-06-18 21:07</span>
+    </div>
+    <div class="article-body">
+      <div class="article-title">全栈开发之路</div>
+      <div class="article-summary">从前端到后端的全栈学习指南，涵盖 Vue3、Spring Boot、MySQL 等技术栈的整合实践。</div>
+      <div class="article-tags">
+        <span class="term-tag">FULLSTACK</span>
+        <span class="term-tag">FRONTEND</span>
+        <span class="term-tag">BACKEND</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 分页 -->
+<div class="pagination">
+  <span>‹</span>
+  <span class="active">1</span>
+  <span>2</span>
+  <span>3</span>
+  <span>›</span>
+</div>
+
+<!-- 底部 -->
+<div class="footer">
+  exit 0 — 先跑通，再完美
+</div>
+
+</body>
+</html>

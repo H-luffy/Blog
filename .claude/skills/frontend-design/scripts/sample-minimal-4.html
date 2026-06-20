@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4 — 卡片悬浮型</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f8f9fa; color: #111; font-family: 'Inter', sans-serif; }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+  .top h1 { font-size: 20px; font-weight: 700; }
+  .top .link { font-size: 12px; color: #999; text-decoration: none; }
+  .top .link:hover { color: #111; }
+
+  .search-bar {
+    display: flex; gap: 0; margin-bottom: 32px;
+  }
+  .search-bar input {
+    flex: 1; padding: 12px 16px; border: 1px solid #e5e5e5; border-right: none;
+    font-family: 'Inter', sans-serif; font-size: 13px; outline: none; background: #fff;
+  }
+  .search-bar input:focus { border-color: #111; }
+  .search-bar button {
+    padding: 12px 24px; background: #111; color: #fff; border: 1px solid #111;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+
+  .cards { display: flex; flex-direction: column; gap: 12px; }
+
+  .card {
+    background: #fff; padding: 24px; border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: all 0.25s ease; cursor: pointer;
+    border-left: 3px solid transparent;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .card.c-vue { border-left-color: #42b883; }
+  .card.c-spring { border-left-color: #6db33f; }
+  .card.c-full { border-left-color: #6366f1; }
+
+  .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .card .meta { font-size: 11px; color: #bbb; margin-bottom: 8px; }
+  .card p { font-size: 13px; color: #777; line-height: 1.6; }
+  .card .ctags { margin-top: 10px; display: flex; gap: 6px; }
+  .card .ctag {
+    font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 4px;
+  }
+  .c-vue .ctag { background: #f0fdf4; color: #42b883; }
+  .c-spring .ctag { background: #f0fdf4; color: #6db33f; }
+  .c-full .ctag { background: #eef2ff; color: #6366f1; }
+
+  .pag { display: flex; justify-content: center; gap: 6px; margin-top: 32px; }
+  .pag span {
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    background: #fff; border-radius: 8px; font-size: 12px; color: #999; cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .pag span.active { background: #111; color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>📝 我的博客</h1>
+    <a href="#" class="link">后台管理 →</a>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="搜索文章...">
+    <button>搜索</button>
+  </div>
+
+  <div class="cards">
+    <div class="card c-vue">
+      <h3>Vue3 入门教程</h3>
+      <div class="meta">2026.06.20 · 42 阅读</div>
+      <p>本文介绍 Vue3 的基础用法，从响应式系统到组合式 API。</p>
+      <div class="ctags"><span class="ctag">Vue.js</span><span class="ctag">前端</span></div>
+    </div>
+
+    <div class="card c-spring">
+      <h3>Spring Boot 实战</h3>
+      <div class="meta">2026.06.19 · 18 阅读</div>
+      <p>Spring Boot 快速搭建后端服务，自动配置、内嵌 Tomcat。</p>
+      <div class="ctags"><span class="ctag">Spring Boot</span><span class="ctag">后端</span></div>
+    </div>
+
+    <div class="card c-full">
+      <h3>全栈开发之路</h3>
+      <div class="meta">2026.06.18 · 5 阅读</div>
+      <p>从前端到后端的全栈学习指南，涵盖 Vue3、Spring Boot、MySQL。</p>
+      <div class="ctags"><span class="ctag">全栈</span><span class="ctag">前端</span><span class="ctag">后端</span></div>
+    </div>
+  </div>
+
+  <div class="pag">
+    <span>‹</span><span class="active">1</span><span>2</span><span>3</span><span>›</span>
+  </div>
+</div>
+</body>
+</html>

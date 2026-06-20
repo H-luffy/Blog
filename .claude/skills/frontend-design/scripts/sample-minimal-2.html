@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2 — 双栏极简</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fafafa; color: #111; font-family: 'Inter', sans-serif; }
+
+  .container { display: grid; grid-template-columns: 200px 1fr; gap: 48px; max-width: 900px; margin: 0 auto; padding: 48px 32px; }
+
+  /* sidebar */
+  aside { position: sticky; top: 48px; height: fit-content; }
+  aside .brand { font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px; }
+  aside .brand span { color: #0ea5e9; }
+  aside ul { list-style: none; }
+  aside li { padding: 8px 0; font-size: 13px; color: #999; cursor: pointer; transition: color 0.2s; }
+  aside li:hover, aside li.active { color: #111; }
+  aside li.active { font-weight: 600; }
+  aside .divider { height: 1px; background: #e5e5e5; margin: 16px 0; }
+
+  /* main */
+  main .hero { margin-bottom: 40px; }
+  main .hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  main .hero p { font-size: 13px; color: #999; }
+
+  .search-row { display: flex; gap: 8px; margin-bottom: 40px; }
+  .search-row input {
+    flex: 1; padding: 10px 14px; border: 1px solid #e5e5e5; background: #fff;
+    font-family: 'Inter', sans-serif; font-size: 13px; outline: none;
+  }
+  .search-row input:focus { border-color: #0ea5e9; }
+  .search-row button {
+    padding: 10px 20px; background: #111; color: #fff; border: none;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+
+  .feed-item {
+    background: #fff; padding: 24px; margin-bottom: 12px; border: 1px solid #eee;
+    transition: border-color 0.2s; cursor: pointer;
+  }
+  .feed-item:hover { border-color: #0ea5e9; }
+  .feed-item h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .feed-item .meta { font-size: 11px; color: #bbb; margin-bottom: 8px; display: flex; gap: 12px; }
+  .feed-item p { font-size: 13px; color: #666; line-height: 1.6; }
+  .feed-item .ftags { margin-top: 10px; display: flex; gap: 6px; }
+  .feed-item .ftag {
+    font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 8px; background: #f0f9ff; color: #0ea5e9;
+  }
+
+  .pag { display: flex; justify-content: center; gap: 6px; margin-top: 32px; }
+  .pag span {
+    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #999; border: 1px solid #eee; cursor: pointer;
+  }
+  .pag span.active { background: #0ea5e9; color: #fff; border-color: #0ea5e9; }
+</style>
+</head>
+<body>
+<div class="container">
+  <aside>
+    <div class="brand">STUDY<span>.</span>BLOG</div>
+    <ul>
+      <li class="active">全部文章</li>
+      <li>Vue.js</li>
+      <li>Spring Boot</li>
+      <li>全栈</li>
+    </ul>
+    <div class="divider"></div>
+    <ul>
+      <li>关于</li>
+      <li>后台管理</li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="hero">
+      <h1>我的文章</h1>
+      <p>共 3 篇文章 · 最后更新 2026-06-20</p>
+    </div>
+
+    <div class="search-row">
+      <input type="text" placeholder="搜索...">
+      <button>搜索</button>
+    </div>
+
+    <div class="feed-item">
+      <h3>Vue3 入门教程</h3>
+      <div class="meta"><span>2026.06.20</span><span>42 阅读</span></div>
+      <p>本文介绍 Vue3 的基础用法，从响应式系统到组合式 API，带你走进现代前端开发的世界。</p>
+      <div class="ftags"><span class="ftag">Vue.js</span><span class="ftag">前端</span><span class="ftag">全栈</span></div>
+    </div>
+
+    <div class="feed-item">
+      <h3>Spring Boot 实战</h3>
+      <div class="meta"><span>2026.06.19</span><span>18 阅读</span></div>
+      <p>Spring Boot 快速搭建后端服务，自动配置、内嵌 Tomcat，Java 开发的不二之选。</p>
+      <div class="ftags"><span class="ftag">Spring Boot</span><span class="ftag">后端</span><span class="ftag">全栈</span></div>
+    </div>
+
+    <div class="feed-item">
+      <h3>全栈开发之路</h3>
+      <div class="meta"><span>2026.06.18</span><span>5 阅读</span></div>
+      <p>从前端到后端的全栈学习指南，涵盖 Vue3、Spring Boot、MySQL 等技术栈的整合实践。</p>
+      <div class="ftags"><span class="ftag">全栈</span><span class="ftag">前端</span><span class="ftag">后端</span></div>
+    </div>
+
+    <div class="pag">
+      <span>‹</span><span class="active">1</span><span>2</span><span>3</span><span>›</span>
+    </div>
+  </main>
+</div>
+</body>
+</html>
