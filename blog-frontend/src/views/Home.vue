@@ -1,8 +1,8 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 48px; min-height: 100vh;">
+  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 0; min-height: 100vh; background: #f4f5f7;">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 48px; height: fit-content; padding: 48px 32px;">
+    <aside style="position: sticky; top: 0; height: 100vh; padding: 48px 32px; background: #f9f9fb; border-right: 1px solid #eee;">
       <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
         STUDY<span style="color: #0ea5e9;">.</span>BLOG
       </div>
@@ -38,8 +38,8 @@
     <main style="padding: 48px 0;">
       <!-- Hero -->
       <div style="margin-bottom: 40px;">
-        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">我的文章</h1>
-        <p style="font-size: 13px; color: #999;">共 {{ total }} 篇文章</p>
+        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px; margin-left: 60px;">欢迎</h1>
+        <p style="font-size: 13px; color: #999;margin-left: 60px">共 {{ total }} 篇文章</p>
       </div>
 
       <!-- 搜索 -->
@@ -100,7 +100,7 @@
     </main>
 
     <!-- 右侧留白区 -->
-    <aside style="padding: 48px 32px;"></aside>
+    <aside style="padding: 48px 32px; background: #f9f9fb; border-left: 1px solid #eee;"></aside>
   </div>
 </template>
 

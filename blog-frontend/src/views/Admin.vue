@@ -1,8 +1,8 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 48px; min-height: 100vh;">
+  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 0; min-height: 100vh; background: #f4f5f7;">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 48px; height: fit-content; padding: 48px 32px;">
+    <aside style="position: sticky; top: 0; height: 100vh; padding: 48px 32px; background: #f9f9fb; border-right: 1px solid #eee;">
       <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
         STUDY<span style="color: #0ea5e9;">.</span>BLOG
       </div>
@@ -142,7 +142,7 @@
     </main>
 
     <!-- 右侧留白区 -->
-    <aside style="padding: 48px 32px;"></aside>
+    <aside style="padding: 48px 32px; background: #f9f9fb; border-left: 1px solid #eee;"></aside>
   </div>
 </template>
 
