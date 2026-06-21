@@ -83,9 +83,24 @@ public class ArticleController {
 
     }
 
+    /*
+    * 获取所有标签
+    * */
     @GetMapping("/tags")
     public Result<List<Tag>> getAllTags(){
         List<Tag> tags = tagService.getAllTags();
         return Result.success(tags);
+    }
+
+    /*
+    * 根据标签查询文章
+    * */
+    @GetMapping("/by-tag")
+    public Result<PageResult> getByTag(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam String tag) {
+        PageResult pageResult = articleService.getByTag(page, pageSize, tag);
+        return Result.success(pageResult);
     }
 }

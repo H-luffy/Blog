@@ -35,4 +35,6 @@ public interface ArticleService {
     * 分页查询
     * */
     PageResult page(Integer page, Integer pageSize, String title);
+
+    PageResult getByTag(Integer page, Integer pageSize, String tag);
 }

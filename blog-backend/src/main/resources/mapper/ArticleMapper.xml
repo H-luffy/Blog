@@ -40,4 +40,13 @@
         </where>
         order by create_time desc
     </select>
+
+    <select id="getByTagName" resultType="com.hjf.entity.Article">
+        SELECT DISTINCT a.id, a.title, a.summary, a.content, a.cover_image, a.status, a.view_count, a.create_time, a.update_time
+        FROM article a
+                 INNER JOIN article_tag at ON a.id = at.article_id
+            INNER JOIN tag t ON at.tag_id = t.id
+        WHERE t.name = #{tagName}
+        ORDER BY a.create_time DESC
+    </select>
 </mapper>

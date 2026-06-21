@@ -85,4 +85,21 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return new PageResult(p.getTotal(), p.getResult());
     }
+
+    /*
+    * 根据标签查询文章
+    * */
+    @Override
+    public PageResult getByTag(Integer page, Integer pageSize, String tag) {
+        PageHelper.startPage(page, pageSize);
+        List<Article> articleList = articleMapper.getByTagName(tag);
+        Page<Article> p = (Page<Article>) articleList;
+        // 给每篇文章设置标签
+        for (Article article : p.getResult()) {
+            List<Tag> tags = articleTagService.getTagsByArticleId(article.getId());
+            article.setTags(tags);
+        }
+        return new PageResult(p.getTotal(), p.getResult());
+    }
+
 }

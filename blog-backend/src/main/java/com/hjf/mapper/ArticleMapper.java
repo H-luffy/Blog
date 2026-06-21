@@ -41,4 +41,6 @@ public interface ArticleMapper{
     Long count();
 
     List<Article> list(String  title);
+
+    List<Article> getByTagName(String tag);
 }
