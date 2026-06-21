@@ -1,8 +1,8 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr; gap: 48px; max-width: 920px; margin: 0 auto; padding: 48px 32px; min-height: 100vh;">
+  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 48px; min-height: 100vh;">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 48px; height: fit-content;">
+    <aside style="position: sticky; top: 48px; height: fit-content; padding: 48px 32px;">
       <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
         STUDY<span style="color: #0ea5e9;">.</span>BLOG
       </div>
@@ -11,8 +11,8 @@
       </ul>
     </aside>
 
-    <!-- 右侧文章内容 -->
-    <main style="min-width: 0;">
+    <!-- 中间文章内容 -->
+    <main style="padding: 48px 0;">
       <div v-loading="loading">
         <div v-if="article" style="background: #fff; padding: 32px; border-radius: 8px; border: 1px solid #eee;">
           <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 12px;">{{ article.title }}</h1>
@@ -32,6 +32,9 @@
         <div v-else-if="!loading" style="text-align: center; padding: 60px 0; color: #999;">文章不存在或已被删除</div>
       </div>
     </main>
+
+    <!-- 右侧留白区 -->
+    <aside style="padding: 48px 32px;"></aside>
   </div>
 </template>
 
@@ -50,13 +53,8 @@ onMounted(async () => {
   const id = route.params.id;
   try {
     const res = await axios.get(`http://localhost:8081/api/articles/${id}`);
-    if (res.data.code === 200) {
-      article.value = res.data.data;
-    }
-  } catch (error) {
-    console.error('获取文章失败:', error);
-  } finally {
-    loading.value = false;
-  }
+    if (res.data.code === 200) article.value = res.data.data;
+  } catch (error) { console.error('获取文章失败:', error); }
+  finally { loading.value = false; }
 });
 </script>

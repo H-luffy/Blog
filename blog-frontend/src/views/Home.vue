@@ -1,8 +1,8 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr; gap: 48px; max-width: 920px; margin: 0 auto; padding: 48px 32px; min-height: 100vh;">
+  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 48px; min-height: 100vh;">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 48px; height: fit-content;">
+    <aside style="position: sticky; top: 48px; height: fit-content; padding: 48px 32px;">
       <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
         STUDY<span style="color: #0ea5e9;">.</span>BLOG
       </div>
@@ -34,8 +34,8 @@
       </ul>
     </aside>
 
-    <!-- 右侧主内容 -->
-    <main style="min-width: 0;">
+    <!-- 中间主内容 -->
+    <main style="padding: 48px 0;">
       <!-- Hero -->
       <div style="margin-bottom: 40px;">
         <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">我的文章</h1>
@@ -49,9 +49,9 @@
           type="text"
           placeholder="搜索文章..."
           @keyup.enter="handleSearch"
-          style="flex: 1; padding: 10px 14px; border: 1px solid #e5e5e5; border-right: none; font-family: 'Inter', sans-serif; font-size: 13px; outline: none;"
+          style="flex: 1; padding: 10px 14px; border: 1px solid #e5e5e5; border-right: none; font-size: 13px; outline: none;"
         />
-        <button @click="handleSearch" style="padding: 10px 20px; background: #111; color: #fff; border: none; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer;">搜索</button>
+        <button @click="handleSearch" style="padding: 10px 20px; background: #111; color: #fff; border: none; font-size: 12px; font-weight: 600; cursor: pointer;">搜索</button>
       </div>
 
       <!-- 文章列表 -->
@@ -98,6 +98,9 @@
         >{{ p }}</span>
       </div>
     </main>
+
+    <!-- 右侧留白区 -->
+    <aside style="padding: 48px 32px;"></aside>
   </div>
 </template>
 
@@ -119,19 +122,13 @@ const totalPages = computed(() => {
   return Array.from({ length: count }, (_, i) => i + 1);
 });
 
-// 加载标签
 const fetchTags = async () => {
   try {
     const res = await axios.get('http://localhost:8081/api/articles/tags');
-    if (res.data.code === 200) {
-      allTags.value = res.data.data;
-    }
-  } catch (error) {
-    console.error('获取标签失败:', error);
-  }
+    if (res.data.code === 200) allTags.value = res.data.data;
+  } catch (error) { console.error('获取标签失败:', error); }
 };
 
-// 加载文章
 const fetchArticles = async () => {
   loading.value = true;
   try {
@@ -142,14 +139,10 @@ const fetchArticles = async () => {
       articles.value = res.data.data.rows;
       total.value = res.data.data.total;
     }
-  } catch (error) {
-    console.error('获取文章失败:', error);
-  } finally {
-    loading.value = false;
-  }
+  } catch (error) { console.error('获取文章失败:', error); }
+  finally { loading.value = false; }
 };
 
-// 按标签筛选
 const fetchArticlesByTag = async (tagName) => {
   activeTag.value = tagName;
   currentPage.value = 1;
@@ -161,21 +154,11 @@ const fetchArticlesByTag = async (tagName) => {
       articles.value = res.data.data.rows;
       total.value = res.data.data.total;
     }
-  } catch (error) {
-    console.error('按标签筛选失败:', error);
-  } finally {
-    loading.value = false;
-  }
+  } catch (error) { console.error('按标签筛选失败:', error); }
+  finally { loading.value = false; }
 };
 
-const handleSearch = () => {
-  currentPage.value = 1;
-  activeTag.value = '';
-  fetchArticles();
-};
+const handleSearch = () => { currentPage.value = 1; activeTag.value = ''; fetchArticles(); };
 
-onMounted(() => {
-  fetchTags();
-  fetchArticles();
-});
+onMounted(() => { fetchTags(); fetchArticles(); });
 </script>

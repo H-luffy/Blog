@@ -1,8 +1,8 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr; gap: 48px; max-width: 920px; margin: 0 auto; padding: 48px 32px; min-height: 100vh;">
+  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 48px; min-height: 100vh;">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 48px; height: fit-content;">
+    <aside style="position: sticky; top: 48px; height: fit-content; padding: 48px 32px;">
       <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
         STUDY<span style="color: #0ea5e9;">.</span>BLOG
       </div>
@@ -16,8 +16,8 @@
       </ul>
     </aside>
 
-    <!-- 右侧主内容 -->
-    <main style="min-width: 0;">
+    <!-- 中间主内容 -->
+    <main style="padding: 48px 0;">
       <!-- 顶部操作栏 -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
         <h1 style="font-size: 20px; font-weight: 700;">文章管理后台</h1>
@@ -140,6 +140,9 @@
         </template>
       </el-dialog>
     </main>
+
+    <!-- 右侧留白区 -->
+    <aside style="padding: 48px 32px;"></aside>
   </div>
 </template>
 
@@ -182,97 +185,53 @@ const totalPages = computed(() => {
   return Array.from({ length: count }, (_, i) => i + 1);
 });
 
-// 加载所有标签
 const fetchTags = async () => {
   try {
     const res = await axios.get('http://localhost:8081/api/articles/tags');
-    if (res.data.code === 200) {
-      allTags.value = res.data.data;
-    }
-  } catch (error) {
-    console.error('获取标签失败:', error);
-  }
+    if (res.data.code === 200) allTags.value = res.data.data;
+  } catch (error) { console.error('获取标签失败:', error); }
 };
 
-// 加载文章列表
 const fetchArticles = async () => {
   tableLoading.value = true;
   try {
-    const params = {
-      page: currentPage.value,
-      pageSize: pageSize.value
-    };
-    if (keyword.value) {
-      params.title = keyword.value;
-    }
+    const params = { page: currentPage.value, pageSize: pageSize.value };
+    if (keyword.value) params.title = keyword.value;
     const res = await axios.get('http://localhost:8081/api/articles', { params });
     if (res.data.code === 200) {
       articles.value = res.data.data.rows;
       total.value = res.data.data.total;
     }
-  } catch (error) {
-    ElMessage.error('加载文章失败');
-  } finally {
-    tableLoading.value = false;
-  }
+  } catch (error) { ElMessage.error('加载文章失败'); }
+  finally { tableLoading.value = false; }
 };
 
-// 搜索
-const handleSearch = () => {
-  currentPage.value = 1;
-  fetchArticles();
-};
+const handleSearch = () => { currentPage.value = 1; fetchArticles(); };
+const resetSearch = () => { keyword.value = ''; currentPage.value = 1; fetchArticles(); };
 
-// 重置搜索
-const resetSearch = () => {
-  keyword.value = '';
-  currentPage.value = 1;
-  fetchArticles();
-};
-
-// 打开新增弹窗
 const openAddDialog = () => {
-  isEdit.value = false;
-  editId.value = null;
-  form.value = {
-    title: '',
-    summary: '',
-    content: '',
-    coverImage: '',
-    status: 1,
-    tagIds: []
-  };
+  isEdit.value = false; editId.value = null;
+  form.value = { title: '', summary: '', content: '', coverImage: '', status: 1, tagIds: [] };
   dialogVisible.value = true;
 };
 
-// 打开编辑弹窗
 const openEditDialog = (row) => {
-  isEdit.value = true;
-  editId.value = row.id;
+  isEdit.value = true; editId.value = row.id;
   form.value = {
-    title: row.title,
-    summary: row.summary,
-    content: row.content,
-    coverImage: row.coverImage || '',
-    status: row.status,
+    title: row.title, summary: row.summary, content: row.content,
+    coverImage: row.coverImage || '', status: row.status,
     tagIds: row.tags ? row.tags.map(t => t.id) : []
   };
   dialogVisible.value = true;
 };
 
-// 保存文章（新增或编辑）
 const saveArticle = async () => {
-  if (!form.value.title) {
-    ElMessage.warning('标题不能为空');
-    return;
-  }
-
+  if (!form.value.title) { ElMessage.warning('标题不能为空'); return; }
   saving.value = true;
   try {
     const data = { ...form.value };
     data.tags = data.tagIds.map(id => ({ id }));
     delete data.tagIds;
-
     if (isEdit.value) {
       data.id = editId.value;
       await axios.put('http://localhost:8081/api/articles', data);
@@ -283,25 +242,18 @@ const saveArticle = async () => {
     }
     dialogVisible.value = false;
     fetchArticles();
-  } catch (error) {
-    ElMessage.error('保存失败');
-  } finally {
-    saving.value = false;
-  }
+  } catch (error) { ElMessage.error('保存失败'); }
+  finally { saving.value = false; }
 };
 
-// 删除文章
 const deleteArticle = async (id) => {
   try {
     await axios.delete(`http://localhost:8081/api/articles/${id}`);
     ElMessage.success('删除成功');
     fetchArticles();
-  } catch (error) {
-    ElMessage.error('删除失败');
-  }
+  } catch (error) { ElMessage.error('删除失败'); }
 };
 
-// 退出登录
 const handleLogout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('username');
@@ -310,8 +262,5 @@ const handleLogout = () => {
   ElMessage.success('已退出登录');
 };
 
-onMounted(() => {
-  fetchTags();
-  fetchArticles();
-});
+onMounted(() => { fetchTags(); fetchArticles(); });
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr; gap: 48px; max-width: 920px; margin: 0 auto; padding: 48px 32px; min-height: 100vh; align-items: center;">
+  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 48px; min-height: 100vh; align-items: center;">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 48px;">
+    <aside style="position: sticky; top: 48px; padding: 48px 32px;">
       <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
         STUDY<span style="color: #0ea5e9;">.</span>BLOG
       </div>
@@ -11,8 +11,8 @@
       </ul>
     </aside>
 
-    <!-- 右侧登录表单 -->
-    <main style="max-width: 360px;">
+    <!-- 中间登录表单 -->
+    <main style="max-width: 360px; padding: 48px 0;">
       <div style="background: #fff; padding: 32px; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
         <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 24px; text-align: center;">后台登录</h2>
 
@@ -39,6 +39,9 @@
         <p v-if="errorMsg" style="color: #f56c6c; text-align: center; margin-top: 16px; font-size: 13px;">{{ errorMsg }}</p>
       </div>
     </main>
+
+    <!-- 右侧留白区 -->
+    <aside style="padding: 48px 32px;"></aside>
   </div>
 </template>
 
