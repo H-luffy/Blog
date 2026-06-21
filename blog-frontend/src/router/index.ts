@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Detail from '../views/Detail.vue'
 import Login from '../views/Login.vue'
 import Admin from '../views/Admin.vue'
+import NotFound from '../views/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: Admin
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFound
     }
   ]
 })

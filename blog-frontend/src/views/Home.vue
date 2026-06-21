@@ -1,106 +1,151 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 0; min-height: 100vh; background: #f4f5f7;">
+  <div class="page-wrapper">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 0; height: 100vh; padding: 48px 32px; background: #f9f9fb; border-right: 1px solid #eee;">
-      <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
-        STUDY<span style="color: #0ea5e9;">.</span>BLOG
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-bar"></div>
+        STUDY<span class="dot">.</span>BLOG
       </div>
-      <ul style="list-style: none;">
+      <ul class="nav-list">
         <li
+          class="nav-item"
+          :class="{ active: activeTag === '' }"
           @click="activeTag = ''; fetchArticles()"
-          :style="{
-            padding: '8px 0', fontSize: '13px', cursor: 'pointer',
-            color: activeTag === '' ? '#111' : '#999',
-            fontWeight: activeTag === '' ? '600' : '400',
-            borderBottom: activeTag === '' ? '2px solid #0ea5e9' : 'none'
-          }"
         >全部文章</li>
         <li
           v-for="tag in allTags"
           :key="tag.id"
+          class="nav-item"
+          :class="{ active: activeTag === tag.name }"
           @click="activeTag = tag.name; fetchArticlesByTag(tag.name)"
-          :style="{
-            padding: '8px 0', fontSize: '13px', cursor: 'pointer',
-            color: activeTag === tag.name ? '#111' : '#999',
-            fontWeight: activeTag === tag.name ? '600' : '400',
-            borderBottom: activeTag === tag.name ? '2px solid #0ea5e9' : 'none'
-          }"
         >{{ tag.name }}</li>
       </ul>
-      <div style="height: 1px; background: #e5e5e5; margin: 16px 0;"></div>
-      <ul style="list-style: none;">
-        <li @click="$router.push('/login')" style="padding: 8px 0; font-size: 13px; color: #999; cursor: pointer;">后台管理</li>
+      <div class="divider"></div>
+      <ul class="nav-list">
+        <li class="nav-item secondary" @click="$router.push('/login')">后台管理</li>
       </ul>
     </aside>
 
     <!-- 中间主内容 -->
-    <main style="padding: 48px 0;">
+    <main class="content" :class="{ 'fade-in': !initialLoad }">
       <!-- Hero -->
-      <div style="margin-bottom: 40px;">
-        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px; margin-left: 60px;">欢迎</h1>
-        <p style="font-size: 13px; color: #999;margin-left: 60px">共 {{ total }} 篇文章</p>
+      <div class="hero">
+        <h1>我的文章</h1>
+        <p>共 {{ total }} 篇文章</p>
       </div>
 
       <!-- 搜索 -->
-      <div style="display: flex; gap: 0; margin-bottom: 32px;">
+      <div class="search-row">
+        <span class="search-icon">🔍</span>
         <input
           v-model="keyword"
           type="text"
           placeholder="搜索文章..."
           @keyup.enter="handleSearch"
-          style="flex: 1; padding: 10px 14px; border: 1px solid #e5e5e5; border-right: none; font-size: 13px; outline: none;"
+          class="search-input"
         />
-        <button @click="handleSearch" style="padding: 10px 20px; background: #111; color: #fff; border: none; font-size: 12px; font-weight: 600; cursor: pointer;">搜索</button>
+        <button @click="handleSearch" class="search-btn">搜索</button>
       </div>
 
       <!-- 文章列表 -->
-      <div v-loading="loading">
+      <div v-loading="loading" element-loading-background="rgba(255,255,255,0.8)">
         <div
-          v-for="article in articles"
+          v-for="(article, index) in articles"
           :key="article.id"
+          class="article-card"
+          :class="['card-' + index, 'status-' + (article.status || 1)]"
           @click="$router.push(`/article/${article.id}`)"
-          style="background: #fff; padding: 24px; margin-bottom: 12px; border: 1px solid #eee; border-radius: 8px; transition: border-color 0.2s; cursor: pointer;"
-          @mouseenter="$event.currentTarget.style.borderColor = '#0ea5e9'"
-          @mouseleave="$event.currentTarget.style.borderColor = '#eee'"
         >
-          <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">{{ article.title }}</h3>
-          <div style="font-size: 11px; color: #bbb; margin-bottom: 8px; display: flex; gap: 12px;">
-            <span>{{ article.createTime }}</span>
-            <span>{{ article.viewCount }} 阅读</span>
+          <div class="card-header">
+            <span class="card-icon" :class="article.status === 1 ? 'icon-published' : 'icon-draft'">
+              {{ article.status === 1 ? '📄' : '📝' }}
+            </span>
+            <h3 class="card-title">{{ article.title }}</h3>
           </div>
-          <p style="font-size: 13px; color: #666; line-height: 1.6; margin: 0;">{{ article.summary }}</p>
-          <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <div class="card-meta">
+            <span>{{ article.createTime }}</span>
+            <span class="dot"></span>
+            <span>{{ article.viewCount }} 阅读</span>
+            <span class="dot"></span>
+            <span class="read-time">📖 {{ estimateReadTime(article.content) }} 分钟</span>
+          </div>
+          <p class="card-summary">{{ article.summary }}</p>
+          <div class="card-tags">
             <span
               v-for="tag in article.tags"
               :key="tag.id"
-              style="font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; background: #f0f9ff; color: #0ea5e9; border-radius: 4px;"
+              class="card-tag"
+              :class="'tag-' + tag.id"
             >{{ tag.name }}</span>
           </div>
         </div>
 
-        <p v-if="!loading && articles.length === 0" style="text-align: center; color: #999; padding: 40px 0;">暂无文章</p>
+        <p v-if="!loading && articles.length === 0" class="empty-state">暂无文章</p>
       </div>
 
       <!-- 分页 -->
-      <div v-if="total > 0" style="display: flex; justify-content: center; gap: 6px; margin-top: 32px;">
+      <div v-if="total > 0" class="pagination">
         <span
           v-for="p in totalPages"
           :key="p"
+          class="page-btn"
+          :class="{ active: p === currentPage }"
           @click="currentPage = p; fetchArticles()"
-          :style="{
-            width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '11px', borderRadius: '6px', cursor: 'pointer',
-            background: p === currentPage ? '#0ea5e9' : '#fff',
-            color: p === currentPage ? '#fff' : '#999',
-            border: '1px solid ' + (p === currentPage ? '#0ea5e9' : '#eee')
-          }"
         >{{ p }}</span>
       </div>
+
+      <!-- 页脚 -->
+      <footer class="site-footer">
+        © 2026 Study Blog · 由 <span>Vue 3</span> + <span>Spring Boot</span> 驱动
+      </footer>
     </main>
 
-    <!-- 右侧留白区 -->
-    <aside style="padding: 48px 32px; background: #f9f9fb; border-left: 1px solid #eee;"></aside>
+    <!-- 右侧面板 -->
+    <aside class="sidebar right-sidebar">
+      <!-- 关于博主 -->
+      <div class="panel about-panel">
+        <div class="avatar">
+          <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix" alt="avatar" />
+        </div>
+        <h3 class="about-name">Study</h3>
+        <p class="about-desc">学习博客，热爱编程，用代码记录成长。</p>
+        <div class="about-links">
+          <a href="https://github.com/H-luffy" class="about-link">GitHub</a>
+          
+          <a href="mailto:3218688828@qq.com" class="about-link">邮箱</a>
+        </div>
+      </div>
+
+      <!-- 站点统计 -->
+      <div class="panel stats-panel">
+        <div class="stat-item">
+          <span class="stat-num">{{ stats.totalArticles }}</span>
+          <span class="stat-label">文章</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">{{ stats.totalViews }}</span>
+          <span class="stat-label">阅读</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">{{ stats.totalTags }}</span>
+          <span class="stat-label">标签</span>
+        </div>
+      </div>
+
+      <!-- 热门标签 -->
+      <div class="panel tags-panel">
+        <h4 class="panel-title">热门标签</h4>
+        <div class="hot-tags">
+          <span
+            v-for="tag in allTags.slice(0, 8)"
+            :key="tag.id"
+            class="hot-tag"
+            @click="activeTag = tag.name; fetchArticlesByTag(tag.name); $router.push('/')"
+          >{{ tag.name }}</span>
+        </div>
+      </div>
+    </aside>
   </div>
 </template>
 
@@ -108,6 +153,7 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
+const initialLoad = ref(false);
 const articles = ref([]);
 const loading = ref(true);
 const keyword = ref('');
@@ -117,6 +163,12 @@ const total = ref(0);
 const allTags = ref([]);
 const activeTag = ref('');
 
+const stats = ref({
+  totalArticles: 0,
+  totalViews: 0,
+  totalTags: 0
+});
+
 const totalPages = computed(() => {
   const count = Math.ceil(total.value / pageSize.value);
   return Array.from({ length: count }, (_, i) => i + 1);
@@ -125,7 +177,10 @@ const totalPages = computed(() => {
 const fetchTags = async () => {
   try {
     const res = await axios.get('http://localhost:8081/api/articles/tags');
-    if (res.data.code === 200) allTags.value = res.data.data;
+    if (res.data.code === 200) {
+      allTags.value = res.data.data;
+      stats.value.totalTags = res.data.data.length;
+    }
   } catch (error) { console.error('获取标签失败:', error); }
 };
 
@@ -138,6 +193,10 @@ const fetchArticles = async () => {
     if (res.data.code === 200) {
       articles.value = res.data.data.rows;
       total.value = res.data.data.total;
+      // 计算总阅读量
+      const views = res.data.data.rows.reduce((sum, a) => sum + (a.viewCount || 0), 0);
+      stats.value.totalArticles = res.data.data.total;
+      stats.value.totalViews += views;
     }
   } catch (error) { console.error('获取文章失败:', error); }
   finally { loading.value = false; }
@@ -160,5 +219,160 @@ const fetchArticlesByTag = async (tagName) => {
 
 const handleSearch = () => { currentPage.value = 1; activeTag.value = ''; fetchArticles(); };
 
-onMounted(() => { fetchTags(); fetchArticles(); });
+const estimateReadTime = (content) => {
+  if (!content) return 1;
+  return Math.max(1, Math.ceil(content.length / 200));
+};
+
+onMounted(() => {
+  fetchTags();
+  fetchArticles();
+  setTimeout(() => { initialLoad.value = true; }, 100);
+});
 </script>
+
+<style>
+/* 文章卡片交错入场 */
+.card-0 { animation: slideIn 0.35s ease 0s both; }
+.card-1 { animation: slideIn 0.35s ease 0.05s both; }
+.card-2 { animation: slideIn 0.35s ease 0.1s both; }
+.card-3 { animation: slideIn 0.35s ease 0.15s both; }
+.card-4 { animation: slideIn 0.35s ease 0.2s both; }
+.card-5 { animation: slideIn 0.35s ease 0.25s both; }
+.card-6 { animation: slideIn 0.35s ease 0.3s both; }
+.card-7 { animation: slideIn 0.35s ease 0.35s both; }
+.card-8 { animation: slideIn 0.35s ease 0.4s both; }
+.card-9 { animation: slideIn 0.35s ease 0.45s both; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 右侧面板 ===== */
+.panel {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+/* 关于博主 */
+.about-panel {
+  text-align: center;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #f0f9ff;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #111;
+}
+
+.about-desc {
+  font-size: 12px;
+  color: #999;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+
+.about-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.about-link {
+  font-size: 11px;
+  color: #0ea5e9;
+  text-decoration: none;
+  padding: 4px 12px;
+  border: 1px solid #e0f0ff;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.about-link:hover {
+  background: #0ea5e9;
+  color: #fff;
+  border-color: #0ea5e9;
+}
+
+/* 站点统计 */
+.stats-panel {
+  display: flex;
+  justify-content: space-around;
+  padding: 16px 20px;
+}
+
+.stat-item {
+  text-align: center;
+  cursor: default;
+}
+
+.stat-num {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #bbb;
+  letter-spacing: 1px;
+}
+
+/* 热门标签 */
+.tags-panel {
+  padding: 16px 20px;
+}
+
+.panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  margin: 0 0 12px;
+  letter-spacing: 1px;
+}
+
+.hot-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hot-tag {
+  font-size: 11px;
+  color: #888;
+  padding: 4px 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hot-tag:hover {
+  color: #0ea5e9;
+  border-color: #0ea5e9;
+  background: #f0f9ff;
+}
+</style>

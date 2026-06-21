@@ -1,41 +1,63 @@
 <template>
-  <div style="display: grid; grid-template-columns: 200px 1fr 240px; gap: 0; min-height: 100vh; background: #f4f5f7;">
+  <div class="page-wrapper">
 
     <!-- 左侧侧边栏 -->
-    <aside style="position: sticky; top: 0; height: 100vh; padding: 48px 32px; background: #f9f9fb; border-right: 1px solid #eee;">
-      <div style="font-weight: 700; font-size: 14px; letter-spacing: 3px; margin-bottom: 32px;">
-        STUDY<span style="color: #0ea5e9;">.</span>BLOG
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-bar"></div>
+        STUDY<span class="dot">.</span>BLOG
       </div>
-      <ul style="list-style: none;">
-        <li style="padding: 8px 0; font-size: 13px; font-weight: 600; color: #111; border-bottom: 2px solid #0ea5e9;">文章管理</li>
-        <li @click="$router.push('/')" style="padding: 8px 0; font-size: 13px; color: #999; cursor: pointer;">返回首页</li>
+      <ul class="nav-list">
+        <li class="nav-item active">文章管理</li>
+        <li class="nav-item secondary" @click="$router.push('/')">返回首页</li>
       </ul>
-      <div style="height: 1px; background: #e5e5e5; margin: 16px 0;"></div>
-      <ul style="list-style: none;">
-        <li style="padding: 8px 0; font-size: 13px; color: #999; cursor: pointer;">{{ username }}</li>
+      <div class="divider"></div>
+      <ul class="nav-list">
+        <li class="nav-item secondary">{{ username }}</li>
       </ul>
     </aside>
 
     <!-- 中间主内容 -->
-    <main style="padding: 48px 0;">
+    <main class="content" :class="{ 'fade-in': !initialLoad }">
       <!-- 顶部操作栏 -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h1 style="font-size: 20px; font-weight: 700;">文章管理后台</h1>
+      <div class="toolbar">
+        <h1>文章管理后台</h1>
         <el-button type="danger" text size="small" @click="handleLogout">退出登录</el-button>
       </div>
 
+      <!-- 统计卡片 -->
+      <div class="stats-cards">
+        <div class="stat-card stat-green">
+          <span class="stat-card-num">{{ stats.totalArticles }}</span>
+          <span class="stat-card-label">总文章</span>
+        </div>
+        <div class="stat-card stat-orange">
+          <span class="stat-card-num">{{ stats.totalDrafts }}</span>
+          <span class="stat-card-label">草稿</span>
+        </div>
+        <div class="stat-card stat-blue">
+          <span class="stat-card-num">{{ stats.publishedCount }}</span>
+          <span class="stat-card-label">已发布</span>
+        </div>
+        <div class="stat-card stat-purple">
+          <span class="stat-card-num">{{ stats.totalTags }}</span>
+          <span class="stat-card-label">标签</span>
+        </div>
+      </div>
+
       <!-- 搜索栏 -->
-      <div style="display: flex; gap: 0; margin-bottom: 20px;">
+      <div class="search-row">
+        <span class="search-icon">🔍</span>
         <input
           v-model="keyword"
           type="text"
           placeholder="搜索文章标题..."
           @keyup.enter="handleSearch"
-          style="flex: 1; padding: 10px 14px; border: 1px solid #e5e5e5; border-right: none; font-size: 13px; outline: none;"
+          class="search-input"
         />
-        <button @click="handleSearch" style="padding: 10px 16px; background: #111; color: #fff; border: none; font-size: 12px; font-weight: 600; cursor: pointer;">搜索</button>
-        <button @click="resetSearch" style="padding: 10px 16px; background: #fff; color: #111; border: 1px solid #e5e5e5; font-size: 12px; cursor: pointer;">重置</button>
-        <button @click="openAddDialog" style="padding: 10px 16px; background: #0ea5e9; color: #fff; border: none; font-size: 12px; font-weight: 600; cursor: pointer;">＋ 新增</button>
+        <button @click="handleSearch" class="btn btn-dark">搜索</button>
+        <button @click="resetSearch" class="btn btn-outline">重置</button>
+        <button @click="openAddDialog" class="btn btn-primary">＋ 新增</button>
       </div>
 
       <!-- 文章列表表格 -->
@@ -76,30 +98,30 @@
       </el-table>
 
       <!-- 分页 -->
-      <div style="display: flex; justify-content: center; gap: 6px; margin-top: 24px;">
+      <div v-if="total > 0" class="pagination">
         <span
           v-for="p in totalPages"
           :key="p"
+          class="page-btn"
+          :class="{ active: p === currentPage }"
           @click="currentPage = p; fetchArticles()"
-          :style="{
-            width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '11px', borderRadius: '6px', cursor: 'pointer',
-            background: p === currentPage ? '#0ea5e9' : '#fff',
-            color: p === currentPage ? '#fff' : '#999',
-            border: '1px solid ' + (p === currentPage ? '#0ea5e9' : '#eee')
-          }"
         >{{ p }}</span>
       </div>
 
-      <p v-if="!tableLoading && articles.length === 0" style="text-align: center; color: #999; margin-top: 40px;">
+      <p v-if="!tableLoading && articles.length === 0" class="empty-state">
         暂无文章，点击"新增文章"开始吧！
       </p>
+
+      <!-- 页脚 -->
+      <footer class="site-footer">
+        © 2026 Study Blog · 由 <span>Vue 3</span> + <span>Spring Boot</span> 驱动
+      </footer>
 
       <!-- 新增/编辑对话框 -->
       <el-dialog
         v-model="dialogVisible"
         :title="isEdit ? '编辑文章' : '新增文章'"
-        width="700px"
+        width="800px"
       >
         <el-form :model="form" label-width="80px">
           <el-form-item label="标题">
@@ -141,8 +163,23 @@
       </el-dialog>
     </main>
 
-    <!-- 右侧留白区 -->
-    <aside style="padding: 48px 32px; background: #f9f9fb; border-left: 1px solid #eee;"></aside>
+    <!-- 右侧面板 -->
+    <aside class="sidebar right-sidebar">
+      <div class="panel stats-panel">
+        <div class="stat-item">
+          <span class="stat-num">{{ stats.totalArticles }}</span>
+          <span class="stat-label">文章</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">{{ stats.totalDrafts }}</span>
+          <span class="stat-label">草稿</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">{{ stats.totalTags }}</span>
+          <span class="stat-label">标签</span>
+        </div>
+      </div>
+    </aside>
   </div>
 </template>
 
@@ -155,6 +192,7 @@ import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const router = useRouter();
+const initialLoad = ref(false);
 const username = ref(localStorage.getItem('username') || '');
 
 const articles = ref([]);
@@ -180,6 +218,13 @@ const form = ref({
 
 const allTags = ref([]);
 
+const stats = ref({
+  totalArticles: 0,
+  totalDrafts: 0,
+  publishedCount: 0,
+  totalTags: 0
+});
+
 const totalPages = computed(() => {
   const count = Math.ceil(total.value / pageSize.value);
   return Array.from({ length: count }, (_, i) => i + 1);
@@ -188,7 +233,10 @@ const totalPages = computed(() => {
 const fetchTags = async () => {
   try {
     const res = await axios.get('http://localhost:8081/api/articles/tags');
-    if (res.data.code === 200) allTags.value = res.data.data;
+    if (res.data.code === 200) {
+      allTags.value = res.data.data;
+      stats.value.totalTags = res.data.data.length;
+    }
   } catch (error) { console.error('获取标签失败:', error); }
 };
 
@@ -201,6 +249,12 @@ const fetchArticles = async () => {
     if (res.data.code === 200) {
       articles.value = res.data.data.rows;
       total.value = res.data.data.total;
+      // 统计草稿数和已发布数
+      const drafts = res.data.data.rows.filter(a => a.status === 0).length;
+      const published = res.data.data.rows.filter(a => a.status === 1).length;
+      stats.value.totalDrafts = drafts;
+      stats.value.publishedCount = published;
+      stats.value.totalArticles = res.data.data.total;
     }
   } catch (error) { ElMessage.error('加载文章失败'); }
   finally { tableLoading.value = false; }
@@ -262,5 +316,9 @@ const handleLogout = () => {
   ElMessage.success('已退出登录');
 };
 
-onMounted(() => { fetchTags(); fetchArticles(); });
+onMounted(() => {
+  fetchTags();
+  fetchArticles();
+  setTimeout(() => { initialLoad.value = true; }, 100);
+});
 </script>
